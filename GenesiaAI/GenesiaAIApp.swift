@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct GenesiaAIApp: App {
+  @StateObject private var vm = LandingFlowViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+          if Prefs.isLandingScreenByPassed {
+            UserNameView()
+              .environmentObject(vm)
+          }else {
+            LandingScreen()
+          }
         }
     }
 }
