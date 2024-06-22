@@ -20,7 +20,6 @@
 		923FB3B72C2607560054711A /* AppSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3B62C2607560054711A /* AppSubscriptionView.swift */; };
 		923FB3B92C2608E40054711A /* CustomXButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3B82C2608E40054711A /* CustomXButton.swift */; };
 		923FB3BC2C2712570054711A /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3BB2C2712570054711A /* ChatListView.swift */; };
-		924D00CA2C2338350006809E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00C92C2338350006809E /* String.swift */; };
 		924D00CF2C233A8C0006809E /* TermsOfService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00CE2C233A8C0006809E /* TermsOfService.swift */; };
 		924D00D22C233AD10006809E /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00D12C233AD10006809E /* PrivacyPolicy.swift */; };
 		924D00D52C233CDC0006809E /* RoundedRectangleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00D42C233CDC0006809E /* RoundedRectangleButton.swift */; };
@@ -414,7 +413,6 @@
 				924D00CF2C233A8C0006809E /* TermsOfService.swift in Sources */,
 				924D00EB2C23742B0006809E /* LandingFlowViewModel.swift in Sources */,
 				924D00E32C236D030006809E /* YourPronounsView.swift in Sources */,
-				924D00CA2C2338350006809E /* String.swift in Sources */,
 				923FB3A52C246D6E0054711A /* ChooseYourAIFriendView.swift in Sources */,
 				92AD825D2C2322D8007FE215 /* LandingScreen.swift in Sources */,
 				924D00D82C233E780006809E /* UserNameView.swift in Sources */,
