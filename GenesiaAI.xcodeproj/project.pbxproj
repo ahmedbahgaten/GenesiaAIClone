@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92064E852C29C43600411F4A /* ChatViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92064E842C29C43600411F4A /* ChatViewScreen.swift */; };
+		92064E872C29C45C00411F4A /* ChatViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92064E862C29C45C00411F4A /* ChatViewViewModel.swift */; };
+		92064E892C2B127900411F4A /* AIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92064E882C2B127900411F4A /* AIModel.swift */; };
 		923FB39A2C2390480054711A /* InterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3992C2390480054711A /* InterestsView.swift */; };
 		923FB39D2C2391230054711A /* InterestsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB39C2C2391230054711A /* InterestsModel.swift */; };
 		923FB3A02C2394B50054711A /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB39F2C2394B50054711A /* TagView.swift */; };
@@ -20,12 +23,18 @@
 		923FB3B72C2607560054711A /* AppSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3B62C2607560054711A /* AppSubscriptionView.swift */; };
 		923FB3B92C2608E40054711A /* CustomXButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3B82C2608E40054711A /* CustomXButton.swift */; };
 		923FB3BC2C2712570054711A /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3BB2C2712570054711A /* ChatListView.swift */; };
+		923FB3BE2C271F710054711A /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3BD2C271F710054711A /* ChatListViewModel.swift */; };
+		923FB3C02C277CDE0054711A /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3BF2C277CDE0054711A /* ChatView.swift */; };
+		923FB3C22C278C3D0054711A /* InMemoryPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3C12C278C3D0054711A /* InMemoryPersistance.swift */; };
+		923FB3CA2C2866AD0054711A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3C92C2866AD0054711A /* SettingsView.swift */; };
+		923FB3CC2C2867370054711A /* SettingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3CB2C2867370054711A /* SettingItemView.swift */; };
+		923FB3CF2C28837B0054711A /* CustomPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3CE2C28837B0054711A /* CustomPopUpView.swift */; };
+		923FB3D12C28948B0054711A /* BlurryBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923FB3D02C28948B0054711A /* BlurryBackgroundView.swift */; };
 		924D00CF2C233A8C0006809E /* TermsOfService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00CE2C233A8C0006809E /* TermsOfService.swift */; };
 		924D00D22C233AD10006809E /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00D12C233AD10006809E /* PrivacyPolicy.swift */; };
 		924D00D52C233CDC0006809E /* RoundedRectangleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00D42C233CDC0006809E /* RoundedRectangleButton.swift */; };
 		924D00D82C233E780006809E /* UserNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00D72C233E780006809E /* UserNameView.swift */; };
 		924D00DB2C234E520006809E /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00DA2C234E520006809E /* UserModel.swift */; };
-		924D00DE2C23686F0006809E /* Prefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00DD2C23686F0006809E /* Prefs.swift */; };
 		924D00E02C236A040006809E /* FirstResponderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00DF2C236A040006809E /* FirstResponderTextField.swift */; };
 		924D00E32C236D030006809E /* YourPronounsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00E22C236D030006809E /* YourPronounsView.swift */; };
 		924D00EB2C23742B0006809E /* LandingFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D00EA2C23742B0006809E /* LandingFlowViewModel.swift */; };
@@ -38,6 +47,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		92064E842C29C43600411F4A /* ChatViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewScreen.swift; sourceTree = "<group>"; };
+		92064E862C29C45C00411F4A /* ChatViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewViewModel.swift; sourceTree = "<group>"; };
+		92064E882C2B127900411F4A /* AIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIModel.swift; sourceTree = "<group>"; };
 		923FB3992C2390480054711A /* InterestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsView.swift; sourceTree = "<group>"; };
 		923FB39C2C2391230054711A /* InterestsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsModel.swift; sourceTree = "<group>"; };
 		923FB39F2C2394B50054711A /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
@@ -51,13 +63,19 @@
 		923FB3B62C2607560054711A /* AppSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSubscriptionView.swift; sourceTree = "<group>"; };
 		923FB3B82C2608E40054711A /* CustomXButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomXButton.swift; sourceTree = "<group>"; };
 		923FB3BB2C2712570054711A /* ChatListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
+		923FB3BD2C271F710054711A /* ChatListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewModel.swift; sourceTree = "<group>"; };
+		923FB3BF2C277CDE0054711A /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		923FB3C12C278C3D0054711A /* InMemoryPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryPersistance.swift; sourceTree = "<group>"; };
+		923FB3C92C2866AD0054711A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		923FB3CB2C2867370054711A /* SettingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItemView.swift; sourceTree = "<group>"; };
+		923FB3CE2C28837B0054711A /* CustomPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopUpView.swift; sourceTree = "<group>"; };
+		923FB3D02C28948B0054711A /* BlurryBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurryBackgroundView.swift; sourceTree = "<group>"; };
 		924D00C92C2338350006809E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		924D00CE2C233A8C0006809E /* TermsOfService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfService.swift; sourceTree = "<group>"; };
 		924D00D12C233AD10006809E /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
 		924D00D42C233CDC0006809E /* RoundedRectangleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButton.swift; sourceTree = "<group>"; };
 		924D00D72C233E780006809E /* UserNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameView.swift; sourceTree = "<group>"; };
 		924D00DA2C234E520006809E /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		924D00DD2C23686F0006809E /* Prefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prefs.swift; sourceTree = "<group>"; };
 		924D00DF2C236A040006809E /* FirstResponderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstResponderTextField.swift; sourceTree = "<group>"; };
 		924D00E22C236D030006809E /* YourPronounsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourPronounsView.swift; sourceTree = "<group>"; };
 		924D00EA2C23742B0006809E /* LandingFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingFlowViewModel.swift; sourceTree = "<group>"; };
@@ -81,6 +99,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		92064E832C29C42A00411F4A /* ChatView */ = {
+			isa = PBXGroup;
+			children = (
+				92064E842C29C43600411F4A /* ChatViewScreen.swift */,
+				92064E862C29C45C00411F4A /* ChatViewViewModel.swift */,
+			);
+			path = ChatView;
+			sourceTree = "<group>";
+		};
 		923FB3982C23903D0054711A /* Interests */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,8 +179,19 @@
 			isa = PBXGroup;
 			children = (
 				923FB3BB2C2712570054711A /* ChatListView.swift */,
+				923FB3BD2C271F710054711A /* ChatListViewModel.swift */,
+				923FB3BF2C277CDE0054711A /* ChatView.swift */,
 			);
 			path = ChatList;
+			sourceTree = "<group>";
+		};
+		923FB3C82C2866630054711A /* SettingsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				923FB3C92C2866AD0054711A /* SettingsView.swift */,
+				923FB3CB2C2867370054711A /* SettingItemView.swift */,
+			);
+			path = SettingsScreen;
 			sourceTree = "<group>";
 		};
 		924D00C82C23382C0006809E /* Extensions */ = {
@@ -167,6 +205,9 @@
 		924D00CB2C233A5C0006809E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				92064E832C29C42A00411F4A /* ChatView */,
+				923FB3C82C2866630054711A /* SettingsScreen */,
+				923FB3BA2C27123C0054711A /* ChatList */,
 				924D00E82C23740A0006809E /* LandingFlow */,
 				924D00D02C233AC60006809E /* PrivacyPolicy */,
 				924D00CD2C233A7F0006809E /* TermsOfService */,
@@ -206,6 +247,8 @@
 				924D00DF2C236A040006809E /* FirstResponderTextField.swift */,
 				924D00EC2C23787B0006809E /* CustomBackButton.swift */,
 				923FB3B82C2608E40054711A /* CustomXButton.swift */,
+				923FB3CE2C28837B0054711A /* CustomPopUpView.swift */,
+				923FB3D02C28948B0054711A /* BlurryBackgroundView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -222,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				924D00DA2C234E520006809E /* UserModel.swift */,
+				92064E882C2B127900411F4A /* AIModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -229,8 +273,8 @@
 		924D00DC2C2368670006809E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				924D00DD2C23686F0006809E /* Prefs.swift */,
 				923FB3B12C25FFEE0054711A /* HapticFeedbackManager.swift */,
+				923FB3C12C278C3D0054711A /* InMemoryPersistance.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -272,7 +316,6 @@
 		924D00F12C237A170006809E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				923FB3BA2C27123C0054711A /* ChatList */,
 				923FB3B52C2606880054711A /* AppSubscriptionView */,
 				923FB3AC2C25C64C0054711A /* ChoosePersonality */,
 				923FB3A92C25C1AA0054711A /* AIAge */,
@@ -398,26 +441,35 @@
 				923FB3AB2C25C1B70054711A /* AIAgeView.swift in Sources */,
 				923FB3A02C2394B50054711A /* TagView.swift in Sources */,
 				923FB3B02C25C9550054711A /* AIPersonalityModel.swift in Sources */,
-				924D00DE2C23686F0006809E /* Prefs.swift in Sources */,
+				923FB3C02C277CDE0054711A /* ChatView.swift in Sources */,
 				923FB39D2C2391230054711A /* InterestsModel.swift in Sources */,
 				923FB3B22C25FFEE0054711A /* HapticFeedbackManager.swift in Sources */,
+				923FB3D12C28948B0054711A /* BlurryBackgroundView.swift in Sources */,
+				92064E892C2B127900411F4A /* AIModel.swift in Sources */,
 				924D00D22C233AD10006809E /* PrivacyPolicy.swift in Sources */,
 				924D00D52C233CDC0006809E /* RoundedRectangleButton.swift in Sources */,
 				924D00F02C237A0A0006809E /* DateOfBirthView.swift in Sources */,
 				923FB3B42C2604A70054711A /* ChoosePersonalityGridItemView.swift in Sources */,
+				92064E852C29C43600411F4A /* ChatViewScreen.swift in Sources */,
 				923FB39A2C2390480054711A /* InterestsView.swift in Sources */,
 				924D00E02C236A040006809E /* FirstResponderTextField.swift in Sources */,
+				923FB3C22C278C3D0054711A /* InMemoryPersistance.swift in Sources */,
 				924D00DB2C234E520006809E /* UserModel.swift in Sources */,
+				923FB3CA2C2866AD0054711A /* SettingsView.swift in Sources */,
 				923FB3B92C2608E40054711A /* CustomXButton.swift in Sources */,
 				923FB3B72C2607560054711A /* AppSubscriptionView.swift in Sources */,
+				923FB3BE2C271F710054711A /* ChatListViewModel.swift in Sources */,
+				923FB3CC2C2867370054711A /* SettingItemView.swift in Sources */,
 				924D00CF2C233A8C0006809E /* TermsOfService.swift in Sources */,
 				924D00EB2C23742B0006809E /* LandingFlowViewModel.swift in Sources */,
 				924D00E32C236D030006809E /* YourPronounsView.swift in Sources */,
 				923FB3A52C246D6E0054711A /* ChooseYourAIFriendView.swift in Sources */,
 				92AD825D2C2322D8007FE215 /* LandingScreen.swift in Sources */,
 				924D00D82C233E780006809E /* UserNameView.swift in Sources */,
+				923FB3CF2C28837B0054711A /* CustomPopUpView.swift in Sources */,
 				923FB3BC2C2712570054711A /* ChatListView.swift in Sources */,
 				923FB3A82C24903A0054711A /* ChooseAINameAndGenderView.swift in Sources */,
+				92064E872C29C45C00411F4A /* ChatViewViewModel.swift in Sources */,
 				923FB3AE2C25C6580054711A /* ChoosePersonalityView.swift in Sources */,
 				924D00ED2C23787B0006809E /* CustomBackButton.swift in Sources */,
 				92AD825B2C2322D8007FE215 /* GenesiaAIApp.swift in Sources */,
@@ -479,7 +531,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -536,7 +588,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
