@@ -7,7 +7,7 @@
 
 import Foundation
 
-class InterestsModel {
+final class InterestsModel:Codable {
   var title:String = ""
   var isSelected:Bool = false
   
