@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserAnswers:ObservableObject {
+final class UserAnswers:ObservableObject {
   var username:String = ""
   var userPronouns:String = "He/Him"
   var dateOfBirth:Date = .now
@@ -17,4 +17,14 @@ class UserAnswers:ObservableObject {
   var aiGender:String = "Female"
   var aiAge:Int = 18
   @Published var selectedPersonality:String = AIPersonalityModel.getPersonalities().first ?? ""
+  
+  func getAIModel() -> AIModel {
+    let model = AIModel()
+    model.aiAge = aiAge
+    model.aiName = aiName
+    model.selectedAvatar = selectedAvatar
+    model.aiGender = aiGender
+    model.selectedPersonality = selectedPersonality
+    return model
+  }
 }
