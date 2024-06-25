@@ -85,12 +85,11 @@ struct TagView: View {
       .frame(height: 40)
       .cornerRadius(18)
       .font(.system(size: 18))
-      .background(
-        isSelected ? Color.white.opacity(0.2) : Color.white.opacity(0.1)
-      )
+      .background(RoundedRectangle(cornerRadius: 8)
+        .stroke(Color.white.opacity(isSelected ? 1 : 0.2)))
       .overlay {
         RoundedRectangle(cornerRadius: 8)
-          .stroke(isSelected ? Color.white : Color.gray.opacity(0.3))
+          .fill(Color.white.opacity(isSelected ? 0.3 :0.1))
       }
       .opacity(
         isSelected ? 1 : selectedInterests.count == maxSelection ? 0.3 : 1
@@ -108,3 +107,6 @@ struct TagView: View {
   }
 }
 
+#Preview {
+  TagView(tags: [.init(title: "Dancing", isSelected: false)],noSelectedItems: .constant(true),selectedInterests: .constant([]))
+}
