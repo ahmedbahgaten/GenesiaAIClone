@@ -13,8 +13,9 @@ struct TagView: View {
   @State var tags: [InterestsModel]
   @State private var totalHeight = CGFloat.zero  
   var maxSelection = 5
-  @State private var numberOfSelectedItems = 0
   @Binding var noSelectedItems:Bool
+  @Binding var selectedInterests:[String]
+  
   
   var body: some View {
     ZStack {
@@ -26,6 +27,9 @@ struct TagView: View {
       }
       .frame(height: totalHeight)
     }.ignoresSafeArea()
+      .onAppear {
+        selectedInterests = tags.filter {$0.isSelected}.map {$0.title}
+      }
   }
   
   private func generateContent(in g: GeometryProxy) -> some View {
@@ -34,7 +38,7 @@ struct TagView: View {
     let selectedCount = tags.filter { $0.isSelected }.count
 
     return ZStack(alignment: .topLeading) {
-      ForEach(0..<tags.count) { index in
+      ForEach(0..<tags.count,id:\.self) { index in
         item(for: tags[index].title, isSelected: tags[index].isSelected)
           .padding([.horizontal, .vertical], 4)
           .alignmentGuide(.leading, computeValue: { d in
@@ -56,12 +60,16 @@ struct TagView: View {
               height = 0 // last item
             }
             return result
-          }).onTapGesture {
+          })
+          .onTapGesture {
             if selectedCount < maxSelection || tags[index].isSelected {
               tags[index].isSelected.toggle()
-              numberOfSelectedItems = tags.filter {$0.isSelected}.count
-              noSelectedItems = numberOfSelectedItems == 0
-              guard numberOfSelectedItems == 5 else { return }
+              let selectedItems = tags.filter { $0.isSelected }
+              withAnimation {
+                noSelectedItems = selectedItems.count == 0
+              }
+              selectedInterests = selectedItems.map {$0.title}
+              guard selectedItems.count == maxSelection else { return }
               HapticFeedbackManager.shared.triggerImpactFeedback(style: .medium)
             }
           }
@@ -85,7 +93,7 @@ struct TagView: View {
           .stroke(isSelected ? Color.white : Color.gray.opacity(0.3))
       }
       .opacity(
-        isSelected ? 1 : numberOfSelectedItems == maxSelection ? 0.3 : 1
+        isSelected ? 1 : selectedInterests.count == maxSelection ? 0.3 : 1
       )
   }
   
@@ -98,15 +106,5 @@ struct TagView: View {
       return .clear
     }
   }
-}
-#Preview {
-  TagView(tags: [.init(title: "🎨 Art and Creativity",
-                       isSelected: false),
-                 .init(title: "📚 Literature",
-                       isSelected: true),
-                 .init(title: "🎥 Movies and TV Shows",
-                       isSelected: true),
-                 .init(title: "💃🏻 Dancing", isSelected: true)],
-          noSelectedItems: .constant(true))
 }
 
