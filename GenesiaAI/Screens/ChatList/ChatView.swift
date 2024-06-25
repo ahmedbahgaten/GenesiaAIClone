@@ -15,7 +15,6 @@ struct ChatView: View {
           .resizable()
           .frame(width: 70,height: 70)
           .clipShape(Circle())
-          .padding(.horizontal)
         VStack(alignment:.leading){
           Text(model.aiName)
             .padding(.bottom,1)
