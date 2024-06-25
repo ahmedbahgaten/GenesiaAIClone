@@ -9,9 +9,16 @@ import SwiftUI
 
 struct DateOfBirthView: View {
   @EnvironmentObject var vm:LandingFlowViewModel
+  @State private var DOB:Date = .now
+  @Binding var path:NavigationPath
+
+  var dateClosedRange: ClosedRange<Date> {
+    let min = Calendar.current.date(byAdding: .year, value: -100, to: Date())!
+    let max = Date()
+    return min...max
+  }
   
     var body: some View {
-      NavigationStack {
         ZStack {
           Color.darkBlue
             .edgesIgnoringSafeArea(.all)
@@ -24,8 +31,7 @@ struct DateOfBirthView: View {
           }
         }.onAppear {
           print(vm.userAnswers.username)
-        }
-      }.navigationBarBackButtonHidden()
+        }.navigationBarBackButtonHidden()
         .toolbar {
           ToolbarItem(placement:.topBarLeading) {
             CustomBackButton()
@@ -36,7 +42,7 @@ struct DateOfBirthView: View {
 
 struct DateOfBirth_Preiew:PreviewProvider {
   static var previews: some View {
-    DateOfBirthView()
+    DateOfBirthView(path: .constant(NavigationPath()))
       .environmentObject(LandingFlowViewModel())
   }
 }
@@ -60,18 +66,22 @@ extension DateOfBirthView {
   }
   
   private var datePickerView:some View {
-    DatePicker("", selection: $vm.userAnswers.dateOfBirth,displayedComponents: .date)
+    
+    DatePicker("", selection: $DOB,
+               in: dateClosedRange,displayedComponents: [.date])
       .datePickerStyle(WheelDatePickerStyle())
+      .preferredColorScheme(.dark)
       .frame(width: 300, height: 200, alignment: .center)
+      .onChange(of: DOB) { oldValue, newValue in
+        vm.userAnswers.dateOfBirth = newValue
+      }
   }
   
   private var continueButton:some View {
-    NavigationLink {
-      InterestsView()
-        .environmentObject(vm)
-    } label: {
-      RoundedRectangleButton(title: "Continue", isDisabled: .constant(false))
-        .padding(.bottom,40)
-    }
+    RoundedRectangleButton(title: "Continue", titleColor: .darkBlue, isDisabled: .constant(false))
+      .padding(.bottom,40)
+      .onTapGesture {
+        path.append("Interests")
+      }
   }
 }
