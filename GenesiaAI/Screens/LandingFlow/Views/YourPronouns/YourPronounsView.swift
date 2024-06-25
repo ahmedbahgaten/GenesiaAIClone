@@ -9,9 +9,11 @@ import SwiftUI
 
 struct YourPronounsView: View {
   @EnvironmentObject var vm:LandingFlowViewModel
+  @State private var pronouns:String = "He/Him"
+  private let userPronouns = ["She/Her","He/Him","They/Them"]
+  @Binding var path:NavigationPath
   
     var body: some View {
-      NavigationStack {
         ZStack {
           Color.darkBlue
             .edgesIgnoringSafeArea(.all)
@@ -22,10 +24,7 @@ struct YourPronounsView: View {
             Spacer()
             continueButton
           }
-        }.onAppear {
-          print(vm.userAnswers.username)
-        }
-      }.navigationBarBackButtonHidden()
+        }.navigationBarBackButtonHidden()
         .toolbar {
           ToolbarItem(placement:.topBarLeading) {
             CustomBackButton()
@@ -35,7 +34,7 @@ struct YourPronounsView: View {
 }
 
 #Preview {
-  YourPronounsView()
+  YourPronounsView(path: .constant(NavigationPath()))
     .environmentObject(LandingFlowViewModel())
 }
 extension YourPronounsView {
@@ -57,21 +56,26 @@ extension YourPronounsView {
   }
   
   private var pickerView:some View {
-    Picker(selection: $vm.userAnswers.userPronouns, label: Text("Picker")) {
-      Text("She/Her").tag("She/Her")
-      Text("He/Him").tag("He/Him")
-      Text("They/Them").tag("They/Them")
-    }.pickerStyle(WheelPickerStyle())
+    Picker(selection: $pronouns, label: Text("Picker")) {
+      ForEach(userPronouns,id:\.self) { pronoun in
+        Text(pronoun).tag(pronoun)
+      }
+    }
+    .pickerStyle(.wheel)
+    .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
       .frame(width: 300, height: 250, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+      .onChange(of: pronouns) { oldValue, newValue in
+        vm.userAnswers.userPronouns = newValue
+      }
   }
   
   private var continueButton:some View {
-    NavigationLink {
-      DateOfBirthView()
-        .environmentObject(vm)
-    } label: {
-      RoundedRectangleButton(title: "Continue", isDisabled: .constant(false))
-        .padding(.bottom,40)
+    RoundedRectangleButton(title: "Continue",
+                           titleColor: .darkBlue,
+                           isDisabled: .constant(false))
+    .padding(.bottom,40)
+    .onTapGesture {
+      path.append("DateOfBirthView")
     }
   }
 }
