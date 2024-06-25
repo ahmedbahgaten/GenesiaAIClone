@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ChoosePersonalityView: View {
   @EnvironmentObject var vm:LandingFlowViewModel
+  @Binding var path:NavigationPath
   
   var body: some View {
-    NavigationStack {
       ZStack {
         Color.darkBlue
         VStack {
@@ -19,29 +19,26 @@ struct ChoosePersonalityView: View {
             .padding(.top,70)
           subheadline
           personalitiesView
-          NavigationLink {
-            AppSubscriptionView()
-              .environmentObject(vm)
-          }label: {
-            RoundedRectangleButton(title: "Create Your AI Friend", isDisabled: .constant(false))
-              .padding(.bottom,70)
+          RoundedRectangleButton(title: "Create Your AI Friend",
+                                 titleColor: .darkBlue,
+                                 isDisabled: .constant(false))
+          .padding(.bottom,70)
+          .onTapGesture {
+            path.append("AppSubscriptionView")
           }
         }
       }.ignoresSafeArea()
-    }.navigationBarBackButtonHidden()
+      .navigationBarBackButtonHidden()
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           CustomBackButton()
         }
       }
-      .onAppear {
-        dump(vm.userAnswers)
-      }
   }
 }
 
 #Preview {
-  ChoosePersonalityView()
+  ChoosePersonalityView(path:.constant(NavigationPath()))
     .environmentObject(LandingFlowViewModel())
 }
 extension ChoosePersonalityView {
