@@ -7,13 +7,29 @@
 
 import Foundation
 
-class LandingFlowViewModel:ObservableObject {
-  @Published var userAnswers = UserAnswers()
-  let interests = InterestsModel.getTags()
-  let avatars = ["5thChar", "6thChar", "7thChar", "8thChar",]
+final class LandingFlowViewModel:ObservableObject {
+  var userAnswers = UserAnswers()
+  var interests = InterestsModel.getTags()
+  let avatars = ["1stChar", "2ndChar", "3rdChar", "4thChar",]
   var aiPersonalities = AIPersonalityModel.getPersonalities()
   
-  func setUserInterests() {
-    userAnswers.interests = interests.filter {$0.isSelected}.map { $0.title }
+  func setUserInterests(interests:[String]) {
+    userAnswers.interests = interests
+  }
+  
+  func saveAIModel() {
+    let aiModel = AIModel()
+    aiModel.aiAge = userAnswers.aiAge
+    aiModel.aiName = userAnswers.aiName
+    aiModel.aiGender = userAnswers.aiGender
+    aiModel.selectedAvatar = userAnswers.selectedAvatar
+    aiModel.selectedPersonality = userAnswers.selectedPersonality
+    InMemoryPersistance.saveModel(model: aiModel)
+  }
+  
+  func clear() {
+      self.userAnswers = UserAnswers()
+      self.interests = InterestsModel.getTags()
+      InMemoryPersistance.clearData()
   }
 }
