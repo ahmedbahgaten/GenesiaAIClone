@@ -10,10 +10,10 @@ import SwiftUI
 struct InterestsView: View {
   @EnvironmentObject var vm:LandingFlowViewModel  
   @State private var isContinueButtonDisabled:Bool = true
-
+  @State private var selectedInterests:[String] = []
+  @Binding var path:NavigationPath
   
   var body: some View {
-    NavigationStack {
       ZStack {
         Color.darkBlue
           .edgesIgnoringSafeArea(.all)
@@ -25,18 +25,22 @@ struct InterestsView: View {
           Spacer()
           continueButton
         }
-      }
-    }.navigationBarBackButtonHidden()
+      }.navigationBarBackButtonHidden()
       .toolbar {
         ToolbarItem(placement:.topBarLeading) {
           CustomBackButton()
         }
       }
+      .onAppear {
+        isContinueButtonDisabled = selectedInterests.isEmpty
+      }.onChange(of: selectedInterests) { oldValue, newValue in
+        vm.userAnswers.interests = newValue
+      }
   }
 }
 
 #Preview {
-    InterestsView()
+  InterestsView(path: .constant(NavigationPath()))
     .environmentObject(LandingFlowViewModel())
 }
 extension InterestsView {
@@ -57,33 +61,38 @@ extension InterestsView {
   private var interestsGridView:some View {
     ScrollView {
       TagView(tags: vm.interests,
-              noSelectedItems: $isContinueButtonDisabled)
-        .padding(.bottom,50)
+              noSelectedItems: $isContinueButtonDisabled, selectedInterests: $selectedInterests)
+      .padding(.bottom,50)
     }.overlay {
-      VStack {
-        Spacer()
-        Rectangle()
-          .fill(Color.clear)
-          .frame(height: 100)
-          .overlay {
-            LinearGradient(
-              gradient: Gradient(colors: [.darkBlue, .clear]),
-              startPoint: .bottom,
-              endPoint: .top)
-          }
-          .allowsHitTesting(false)
-      }
+      gradientView
+    }
+    .scrollIndicators(.hidden)
+  }
+  
+  private var gradientView: some View {
+    VStack {
+      Spacer()
+      Rectangle()
+        .fill(Color.clear)
+        .frame(height: 100)
+        .overlay {
+          LinearGradient(
+            gradient: Gradient(colors: [.darkBlue, .clear]),
+            startPoint: .bottom,
+            endPoint: .top)
+        }
+        .allowsHitTesting(false)
     }
   }
   
   private var continueButton:some View {
-    NavigationLink {
-      vm.setUserInterests()
-      return ChooseYourAIFriendView()
-        .environmentObject(vm)
-    } label: {
-      RoundedRectangleButton(title: "Continue", isDisabled: $isContinueButtonDisabled)
-        .padding(.bottom,40)
-    }.disabled(isContinueButtonDisabled)
+    RoundedRectangleButton(title: "Continue",
+                           titleColor: .darkBlue,
+                           isDisabled: $isContinueButtonDisabled)
+    .padding(.bottom,40)
+    .disabled(isContinueButtonDisabled)
+    .onTapGesture {
+      path.append("ChooseYourAIFriendScreen")
+    }
   }
 }
