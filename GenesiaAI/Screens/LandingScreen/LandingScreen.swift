@@ -7,25 +7,20 @@
 
 import SwiftUI
 struct LandingScreen: View {
+  @EnvironmentObject var vm: LandingFlowViewModel
   let imageNames = ["1stChar",
                     "2ndChar",
                     "3rdChar",
                     "4thChar"]
-  var timer:Timer?
+  
   @State private var currentIndex = 0
   @State private var showPrivacyPolicy = false
   @State private var showTermsOfService = false
-  
-  mutating func setTimer(timer:Timer) {
-    self.timer = timer
-  }
-  mutating func cancelTimer() {
-    timer?.invalidate()
-    timer = nil
-  }
+  @State private var scale: CGFloat = 1.0
+  @Binding var path:NavigationPath
   
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $path) {
       VStack(alignment: .center) {
         titleHeader
         Spacer()
@@ -33,6 +28,17 @@ struct LandingScreen: View {
         letsStartButton
         termsAndPolicyView
       }
+      .navigationDestination(for: String.self, destination: { screen in
+        destinationView(screen: screen)
+      })
+      .navigationDestination(for: UserNamePushedFrom.self, destination: { pushedFrom in
+        userNameView(pushedFrom: pushedFrom)
+      })
+      .navigationDestination(for: AIModel.self, destination: { model in
+        let vm = ChatViewViewModel(aiModel: model)
+        ChatViewScreen(vm: vm,
+                       path: $path)
+      })
       .navigationBarBackButtonHidden()
       .background {
         backgroundView
@@ -44,12 +50,71 @@ struct LandingScreen: View {
         PrivacyPolicy()
       })
     }
-
+  }
+  
+  private func startScalingAnimation() {
+    withAnimation(Animation.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+      scale = 1.1
+    }
+  }
+  
+  @ViewBuilder
+  private func destinationView(screen:String) -> some View {
+    if screen == "YourPronounsView" {
+      YourPronounsView(path: $path)
+        .environmentObject(vm)
+    }else if screen == "DateOfBirthView" {
+      DateOfBirthView(path: $path)
+        .environmentObject(vm)
+    }else if screen == "Interests" {
+      InterestsView(path:$path)
+        .environmentObject(vm)
+    }else if screen == "ChooseYourAIFriendScreen" {
+      ChooseYourAIFriendView(path:$path)
+        .environmentObject(vm)
+    }else if screen == "ChooseAINameAndGenderView" {
+      ChooseAINameAndGenderView(path: $path)
+        .environmentObject(vm)
+    }else if screen == "AIAge" {
+      AIAgeView(path:$path)
+        .environmentObject(vm)
+    }else if screen == "ChoosePersonalityView" {
+      ChoosePersonalityView(path: $path)
+        .environmentObject(vm)
+    }else if screen == "AppSubscriptionView" {
+      AppSubscriptionView(isPresented: .constant(false),
+                          path: $path)
+      .environmentObject(vm)
+    } else if screen == "ChatList" {
+      ChatListView(vm: ChatListViewModel(),
+                   path: $path)
+      .environmentObject(vm)
+    }else if screen == "ChatViewScreen" {
+      ChatViewScreen(vm: .init(aiModel: vm.userAnswers.getAIModel()),
+                     path: $path)
+    }else if screen == "SettingsView" {
+      SettingsView(path:$path)
+        .environmentObject(vm)
+    }
+  }
+  
+  private func userNameView(pushedFrom:UserNamePushedFrom) -> some View {
+    switch pushedFrom {
+      case .landing:
+        UserNameView(isFromStartNewChat: .constant(false),
+                     path: $path)
+        .environmentObject(vm)
+      case .startNewChat:
+        UserNameView(isFromStartNewChat: .constant(true),
+                     path: $path)
+        .environmentObject(vm)
+    }
   }
 }
 
 #Preview {
-  LandingScreen()
+  LandingScreen(path:.constant(NavigationPath()))
+    .environmentObject(LandingFlowViewModel())
 }
 
 extension LandingScreen {
@@ -62,15 +127,17 @@ extension LandingScreen {
   }
   
   private var letsStartButton:some View {
-    NavigationLink {
-      Prefs.isLandingScreenByPassed = true
-      return UserNameView()
-    } label: {
-      RoundedRectangleButton(title: "Let's Start",
-                             isDisabled: .constant(false))
+    RoundedRectangleButton(title: "Let's Start",
+                           titleColor: .darkBlue,
+                           isDisabled: .constant(false))
+    .scaleEffect(scale)
+    .onAppear {
+      startScalingAnimation()
+    }
+    .onTapGesture {
+      path.append(UserNamePushedFrom.landing)
     }
   }
-  
   private var infoView: some View {
     Text("The AI friend who is always there for you")
       .frame(minWidth: 0, idealWidth: 200, maxWidth: 300, minHeight: 0, idealHeight: 80, maxHeight: 80, alignment: .center)
@@ -127,12 +194,5 @@ extension LandingScreen {
         )
         .ignoresSafeArea()
     }.ignoresSafeArea()
-      .onAppear {
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
-          withAnimation {
-            currentIndex = (currentIndex + 1) % imageNames.count
-          }
-        }
-      }
   }
 }
