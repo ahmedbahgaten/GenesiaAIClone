@@ -10,10 +10,9 @@ import SwiftUI
 struct ChooseYourAIFriendView: View {
   @EnvironmentObject var vm:LandingFlowViewModel
   @State private var selectedAvatar: String = ""
-
+  @Binding var path:NavigationPath
   
   var body: some View {
-    NavigationStack {
       ZStack {
         Image(selectedAvatar)
           .resizable()
@@ -22,8 +21,9 @@ struct ChooseYourAIFriendView: View {
         gradientView
           .ignoresSafeArea()
         bottomView
-      }
-    }.onAppear {
+      }.onChange(of: selectedAvatar) { oldValue, newValue in
+        vm.userAnswers.selectedAvatar = newValue
+      }.onAppear {
       if selectedAvatar.isEmpty {
         selectedAvatar = vm.avatars.first ?? ""
       }
@@ -38,7 +38,7 @@ struct ChooseYourAIFriendView: View {
 }
 
 #Preview {
-  ChooseYourAIFriendView()
+  ChooseYourAIFriendView(path:.constant(NavigationPath()) )
     .environmentObject(LandingFlowViewModel())
 }
 
@@ -96,12 +96,11 @@ extension ChooseYourAIFriendView {
     VStack {
       Spacer()
       horizontalListView
-      NavigationLink {
-        vm.userAnswers.selectedAvatar = selectedAvatar
-        return ChooseAINameAndGenderView()
-          .environmentObject(vm)
-      } label: {
-        RoundedRectangleButton(title: "Continue", isDisabled: .constant(false))
+      RoundedRectangleButton(title: "Continue",
+                             titleColor: .darkBlue,
+                             isDisabled: .constant(false))
+      .onTapGesture {
+        path.append("ChooseAINameAndGenderView")
       }
     }.padding(.bottom,40)
   }
