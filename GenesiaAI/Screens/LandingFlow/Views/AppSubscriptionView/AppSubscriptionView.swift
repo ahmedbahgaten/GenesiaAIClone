@@ -13,39 +13,17 @@ struct AppSubscriptionView: View {
   @State private var yearlySubscriptionSelected:Bool = false
   @State private var pulsate = false
   @State private var isMuted = false
+  @Binding var isPresented:Bool
+  @Binding var path:NavigationPath
   
   var body: some View {
-    NavigationStack {
       ZStack {
         Image(vm.userAnswers.selectedAvatar ?? "5thChar")
           .resizable()
         gradientView
         contentView
       }.ignoresSafeArea()
-    }.navigationBarBackButtonHidden()
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          CustomXButton()
-        }
-        ToolbarItem(placement: .topBarTrailing) {
-          Image(systemName: isMuted ? "speaker.wave.2.fill" : "speaker.slash.fill")
-            .scaleEffect(pulsate ? 1.4 : 1.0)
-            .animation(
-              pulsate ?
-              Animation.easeInOut(duration: 0.6).repeatForever(autoreverses: true) :
-                  .default,
-              value: pulsate
-            )
-            .onTapGesture {
-              isMuted.toggle()
-              pulsate = false
-            }
-            .onAppear {
-              pulsate = true
-            }
-          
-        }
-      }
+      .navigationBarBackButtonHidden()
       .onAppear {
         pulsate = true
       }
@@ -55,14 +33,32 @@ struct AppSubscriptionView: View {
 extension AppSubscriptionView {
   private var title: some View {
     HStack {
-      Text("Genesia")
-        .font(.system(size: 30))
-        .fontWeight(.regular)
-      Text("AI")
-        .font(.system(size: 30))
-        .fontWeight(.light)
-      Text("PRO")
-        .font(.system(size: 40, weight: .semibold, design: .rounded))
+      if isPresented {
+        CustomXButton()
+          .onTapGesture {
+            isPresented = false
+          }
+      }else {
+        CustomXButton()
+          .onTapGesture {
+            path.append("ChatList")
+            path.append("ChatViewScreen")
+            vm.saveAIModel()
+          }
+      }
+      HStack {
+        Text("Genesia")
+          .font(.system(size: 30))
+          .fontWeight(.regular)
+        Text("AI")
+          .font(.system(size: 30))
+          .fontWeight(.light)
+        Text("PRO")
+          .font(.system(size: 40, weight: .semibold, design: .rounded))
+      }.padding(.horizontal,20)
+        .padding(.top,100)
+        .foregroundStyle(.white)
+      speakerView
     }
   }
   
@@ -92,7 +88,7 @@ extension AppSubscriptionView {
         Text(" Special Video Calls")
           .font(.system(size: 20))
       }
-    }
+    }.foregroundStyle(.white)
   }
   
   private var weeklySubscriptionView:some View {
@@ -101,14 +97,12 @@ extension AppSubscriptionView {
         .font(.footnote)
         .foregroundStyle(.gray)
       Text("EGP149.99/week, cancel anytime")
+        .foregroundStyle(.white)
     }.padding()
       .frame(width:350)
-      .background(
-        .thinMaterial
-      )
       .overlay {
         RoundedRectangle(cornerRadius: 30)
-          .stroke(weeklySubscriptionSelected ? Color.white : Color.white.opacity(0.3),lineWidth: 2)
+          .stroke(weeklySubscriptionSelected ? Color.white : Color.white.opacity(0.3),lineWidth: 3)
           .animation(.snappy, value: weeklySubscriptionSelected)
       }
       .overlay {
@@ -129,14 +123,12 @@ extension AppSubscriptionView {
           .font(.footnote)
           .foregroundStyle(.gray)
         Text("EGP1199.99/year, cancel anytime")
+          .foregroundStyle(.white)
       }.padding()
         .frame(width:350)
-        .background(
-          .thinMaterial
-        )
         .overlay {
           RoundedRectangle(cornerRadius: 30)
-            .stroke(yearlySubscriptionSelected ? Color.white : Color.white.opacity(0.3),lineWidth:2)
+            .stroke(yearlySubscriptionSelected ? Color.white : Color.white.opacity(0.3),lineWidth:3)
             .animation(.snappy, value: yearlySubscriptionSelected)
         }
         .overlay {
@@ -170,7 +162,6 @@ extension AppSubscriptionView {
           )
         )
         .ignoresSafeArea()
-        .frame(height:400)
     }
   }
   
@@ -202,6 +193,7 @@ extension AppSubscriptionView {
       Text(yearlySubscriptionSelected ? "" : "No payment now")
         .font(.subheadline)
         .fontWeight(.semibold)
+        .foregroundStyle(.white)
       Text("Restore")
         .font(.caption)
         .foregroundStyle(.gray)
@@ -211,23 +203,43 @@ extension AppSubscriptionView {
   private var contentView: some View {
     VStack(alignment:.center) {
       title
-        .padding(.top,50)
       Spacer()
       VStack(spacing:15) {
         subscriptionFeaturesView
         weeklySubscriptionView
         yearlySubscriptionView
-        RoundedRectangleButton(title: weeklySubscriptionSelected ? "Start my 3-day free trial" : "Start Plan",
+        RoundedRectangleButton(title: weeklySubscriptionSelected ? "Start my 3-day free trial" : "Start Plan", titleColor: .darkBlue,
                                isDisabled: .constant(false))
         .animation(.spring, value: weeklySubscriptionSelected)
         termsAndPrivacyView
       }.padding(.bottom,20)
     }
   }
+  
+  private var speakerView: some View {
+    Image(systemName: isMuted ? "speaker.wave.2.fill" : "speaker.slash.fill")
+      .foregroundStyle(.white)
+      .font(.system(size: 22))
+      .frame(width: 22,height: 22)
+      .scaleEffect(pulsate ? 1.4 : 1.0)
+      .animation(
+        pulsate ?
+        Animation.easeInOut(duration: 0.6).repeatForever(autoreverses: true) :
+            .default,
+        value: pulsate
+      )
+      .onTapGesture {
+        isMuted.toggle()
+        pulsate = false
+      }
+      .onAppear {
+        pulsate = true
+      }
+  }
 }
 
 #Preview {
-    AppSubscriptionView()
+  AppSubscriptionView(isPresented: .constant(false),path: .constant(NavigationPath()))
     .environmentObject(LandingFlowViewModel())
 }
 
