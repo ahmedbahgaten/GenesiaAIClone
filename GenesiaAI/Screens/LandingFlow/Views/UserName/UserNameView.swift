@@ -8,13 +8,22 @@
 import SwiftUI
 import Combine
 
+enum UserNamePushedFrom:Hashable {
+  case landing
+  case startNewChat
+}
+
+@MainActor
 struct UserNameView: View {
   
-  @State private var isDisabled:Bool = true
+  @State private var isContinueButtonDisabled:Bool = true
+  @Binding var isFromStartNewChat:Bool
   @EnvironmentObject private var vm:LandingFlowViewModel
+  @State private var text:String = ""
+  @FocusState private var isFocused: Bool
+  @Binding var path:NavigationPath
   
   var body: some View {
-    NavigationStack {
       ZStack {
         Color.darkBlue
           .edgesIgnoringSafeArea(.all)
@@ -24,23 +33,33 @@ struct UserNameView: View {
           introduceYourselfView
           textFieldView
           Spacer()
-          NavigationLink {
-            YourPronounsView()
-              .environmentObject(vm)
-          } label: {
-            RoundedRectangleButton(title: "Continue",
-                                   isDisabled: $isDisabled)
+          RoundedRectangleButton(title: "Continue",
+                                 titleColor: .darkBlue,
+                                 isDisabled: $isContinueButtonDisabled)
+          .onTapGesture {
+            path.append("YourPronounsView")
           }
+          .allowsHitTesting(!isContinueButtonDisabled)
           .padding(.bottom, 40)
         }
+      }.navigationBarBackButtonHidden()
+      .toolbar {
+        if isFromStartNewChat {
+          ToolbarItem(placement: .topBarLeading) {
+            CustomBackButton()
+          }
+        }
       }
-    }.navigationBarBackButtonHidden()
+      .onAppear {
+        isContinueButtonDisabled = vm.userAnswers.username.isEmpty
+        text = vm.userAnswers.username
+        isFocused.toggle()
+      }
   }
-
 }
 
 #Preview {
-    UserNameView()
+  UserNameView(isFromStartNewChat: .constant(false),path: .constant(NavigationPath()))
     .environmentObject(LandingFlowViewModel())
 }
 
@@ -61,12 +80,21 @@ extension UserNameView {
   
   private var textFieldView: some View {
     ZStack {
-      FirstResponderTextField(text: $vm.userAnswers.username, placeholder: "Enter your name")
-        .multilineTextAlignment(TextAlignment.center)
-        .textFieldStyle(PlainTextFieldStyle())
-        .foregroundColor(.white)
-        .onChange(of: vm.userAnswers.username) { oldValue, newValue in
-          isDisabled = newValue.isEmpty
+      TextField("", text: $text,
+                prompt: Text("Enter your name").foregroundColor(.gray))
+      .multilineTextAlignment(.center)
+      .font(.system(size: 25))
+      .keyboardShortcut(.end)
+      .focused($isFocused)
+      .foregroundStyle(.white)
+        .onChange(of: text) { oldValue, newValue in
+          vm.userAnswers.username = newValue
+          withAnimation {
+            isContinueButtonDisabled = newValue.isEmpty
+          }
+        }
+        .onSubmit {
+          guard !vm.userAnswers.username.isEmpty else { return }
         }
     }.frame(width: 200, height: 100, alignment: .center)
 
