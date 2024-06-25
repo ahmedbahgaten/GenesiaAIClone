@@ -9,9 +9,12 @@ import SwiftUI
 
 struct AIAgeView: View {
   @EnvironmentObject var vm:LandingFlowViewModel
+  @State private var aiAge:Int = 0
+  @Binding var path:NavigationPath
   
+  let maxAge = 99
+  let minAge = 18
     var body: some View {
-      NavigationStack {
         ZStack {
           Color.darkBlue
             .edgesIgnoringSafeArea(.all)
@@ -21,27 +24,28 @@ struct AIAgeView: View {
             subheadline
             agePickerView
             Spacer()
-            NavigationLink {
-              ChoosePersonalityView()
-                .environmentObject(vm)
-            } label: {
-              RoundedRectangleButton(title: "Continue",
-                                     isDisabled:.constant(false))
-            }
+            RoundedRectangleButton(title: "Continue",
+                                   titleColor: .darkBlue,
+                                   isDisabled:.constant(false))
             .padding(.bottom, 40)
+            .onTapGesture {
+              path.append("ChoosePersonalityView")
+            }
           }
-        }
-      }.navigationBarBackButtonHidden()
+        }.navigationBarBackButtonHidden()
         .toolbar {
           ToolbarItem(placement: .topBarLeading) {
             CustomBackButton()
           }
         }
+        .onAppear {
+          aiAge = minAge
+        }
     }
 }
 
 #Preview {
-    AIAgeView()
+  AIAgeView(path: .constant(NavigationPath()))
     .environmentObject(LandingFlowViewModel())
 }
 
@@ -64,12 +68,16 @@ extension AIAgeView {
   
   private var agePickerView: some View {
     VStack {
-      Picker(selection: $vm.userAnswers.aiAge, label: Text("Picker")) {
-        ForEach(Array(stride(from: 99, through: 18, by: -1)), id: \.self) { index in
+      Picker(selection: $aiAge, label: Text("Picker")) {
+        ForEach(Array(stride(from: maxAge, through: minAge, by: -1)), id: \.self) { index in
           Text(index.description).tag(index)
         }
-      }.pickerStyle(WheelPickerStyle())
+      }.preferredColorScheme(.dark)
+      .pickerStyle(WheelPickerStyle())
         .frame(width: 300, height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        .onChange(of: aiAge) { oldValue, newValue in
+          vm.userAnswers.aiAge = newValue
+        }
     }
   }
 }
