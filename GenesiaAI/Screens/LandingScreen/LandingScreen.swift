@@ -37,7 +37,7 @@ struct LandingScreen: View {
       .navigationDestination(for: AIModel.self, destination: { model in
         let vm = ChatViewViewModel(aiModel: model)
         ChatViewScreen(vm: vm,
-                       path: $path)
+                       path: $path, showSetRelationShipView: false)
       })
       .navigationBarBackButtonHidden()
       .background {
@@ -91,7 +91,8 @@ struct LandingScreen: View {
       .environmentObject(vm)
     }else if screen == "ChatViewScreen" {
       ChatViewScreen(vm: .init(aiModel: vm.userAnswers.getAIModel()),
-                     path: $path)
+                     path: $path,
+                     showSetRelationShipView:true)
     }else if screen == "SettingsView" {
       SettingsView(path:$path)
         .environmentObject(vm)
