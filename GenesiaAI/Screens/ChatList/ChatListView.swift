@@ -31,9 +31,17 @@ struct ChatListView: View {
         }
       }.navigationBarBackButtonHidden()
   }
+  
+  func deleteRow(modelID:UUID) {
+    vm.deleteAIModel(modelID: modelID)
+  }
+  func pinModel(modelID:UUID,pinned:Bool) {
+    vm.pinModel(modelID: modelID,pinned: pinned)
+  }
 }
 
 #Preview {
+  let vm = ChatListViewModel()
   return ChatListView(vm: .init(),path: .constant(NavigationPath()))
     .environmentObject(LandingFlowViewModel())
 }
@@ -87,11 +95,23 @@ extension ChatListView {
   private var chatListView:some View {
     ScrollView {
       LazyVGrid(columns: [GridItem(.flexible())]) {
-        ForEach(vm.getAvailableAIModels().reversed()) { model in
-          ChatView(aiName: model.aiName,
-                   aiAvatar: model.selectedAvatar ?? "")
+        ForEach(vm.aiModels) { model in
+          ChatView(model: model)
           .onTapGesture {
             path.append(model)
+          }.contextMenu {
+            Button(action: {
+              pinModel(modelID: model.id,pinned: !model.isChatPinned)
+            }) {
+              Text(model.isChatPinned ? "Unpin" : "Pin")
+              Image(systemName: model.isChatPinned ? "pin.slash.fill" :"pin")
+            }
+            Button(role:.destructive,action: {
+              deleteRow(modelID: model.id)
+            }) {
+              Text("Delete")
+              Image(systemName: "trash")
+            }
           }
         }
       }

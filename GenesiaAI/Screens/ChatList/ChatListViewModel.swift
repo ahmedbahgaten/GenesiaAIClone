@@ -8,8 +8,19 @@
 import Foundation
 
 final class ChatListViewModel:ObservableObject {
-
-  func getAvailableAIModels() -> [AIModel] {
-    InMemoryPersistance.getAIModels()
+  @Published var aiModels:[AIModel] = []
+  
+  init() {
+    aiModels = InMemoryPersistance.getAIModels()
+  }
+  
+  func deleteAIModel(modelID:UUID) {
+    InMemoryPersistance.deleteAIModel(modelID: modelID)
+    aiModels = InMemoryPersistance.getAIModels()
+  }
+  
+  func pinModel(modelID:UUID,pinned:Bool) {
+    InMemoryPersistance.pinModel(modelID: modelID, pinned: pinned)
+    aiModels = InMemoryPersistance.getAIModels()
   }
 }

@@ -8,20 +8,19 @@
 import SwiftUI
 
 struct ChatView: View {
-  var aiName:String
-  var aiAvatar:String
+  @ObservedObject var model:AIModel
     var body: some View {
       HStack{
-        Image(aiAvatar)
+        Image(model.selectedAvatar ?? "")
           .resizable()
           .frame(width: 70,height: 70)
           .clipShape(Circle())
           .padding(.horizontal)
         VStack(alignment:.leading){
-          Text(aiName)
+          Text(model.aiName)
             .padding(.bottom,1)
           HStack {
-            Text("Hey there! It is \(aiName).What's up, buddy? What do you do for fun? ")
+            Text("Hey there! It is \(model.aiName).What's up, buddy? What do you do for fun? ")
               .foregroundStyle(.gray)
               .lineLimit(1)
             Spacer()
@@ -31,13 +30,19 @@ struct ChatView: View {
               .fontWeight(.semibold)
           }
         }
+        if model.isChatPinned {
+          Image(systemName: "pin.fill")
+        }
       }.padding()
     }
 }
 
 struct ChatView_Prev:PreviewProvider {
   static var previews: some View {
-    ChatView(aiName: "AINameTest", aiAvatar: "5thChar")
+    let model = AIModel()
+    model.aiName = "AINameTest"
+    model.selectedAvatar = "5thChar"
+    return ChatView(model: model)
       .previewLayout(.sizeThatFits)
   }
 }

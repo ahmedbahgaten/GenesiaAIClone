@@ -6,7 +6,7 @@
 //
 
 import Foundation
-final class AIModel:Identifiable,Hashable {
+final class AIModel:Identifiable,Hashable,ObservableObject{
   static func == (lhs: AIModel, rhs: AIModel) -> Bool {
     lhs.id == rhs.id
   }
@@ -20,4 +20,5 @@ final class AIModel:Identifiable,Hashable {
   var aiAge:Int = 18
   var selectedAvatar:String?
   var selectedPersonality:String = AIPersonalityModel.getPersonalities().first ?? ""
+  @Published var isChatPinned = false
 }
