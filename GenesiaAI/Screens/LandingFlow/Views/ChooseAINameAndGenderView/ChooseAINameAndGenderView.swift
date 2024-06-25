@@ -11,9 +11,11 @@ struct ChooseAINameAndGenderView: View {
   @EnvironmentObject var vm:LandingFlowViewModel
   @State private var isContinueButtonDisabled:Bool = true
   @State private var selectedGender: String? = "Female"
+  @State private var aiName:String = ""
+  @FocusState private var isFocused:Bool
+  @Binding var path:NavigationPath
   
   var body: some View {
-    NavigationStack {
       ZStack {
       backgroundView
         VStack {
@@ -29,13 +31,16 @@ struct ChooseAINameAndGenderView: View {
             VStack {
               HStack {
                 Spacer()
-                TextField("Enter Name", text: $vm.userAnswers.aiName)
+                TextField("", text: $aiName,
+                          prompt: Text("Enter Name").foregroundColor(.gray))
                   .multilineTextAlignment(.center)
                   .foregroundStyle(.white)
                   .font(.system(size: 22))
                   .fontWeight(.semibold)
                   .frame(width: 200)
-                  .onChange(of: vm.userAnswers.aiName) { oldValue, newValue in
+                  .focused($isFocused)
+                  .onChange(of: aiName) { oldValue, newValue in
+                    vm.userAnswers.aiName = newValue
                     isContinueButtonDisabled = newValue.isEmpty
                   }
                 continueButton
@@ -47,13 +52,15 @@ struct ChooseAINameAndGenderView: View {
             .background(.ultraThinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 10))
         }.padding(.bottom,10)
-      }
-      
-    }.navigationBarBackButtonHidden()
+      }.navigationBarBackButtonHidden()
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           CustomBackButton()
         }
+      }
+      .onAppear {
+        selectedGender = vm.userAnswers.aiGender
+        isFocused.toggle()
       }
   }
 }
@@ -61,7 +68,7 @@ struct ChooseAINameAndGenderView: View {
 #Preview {
   let vm = LandingFlowViewModel()
   vm.userAnswers.selectedAvatar = "6thChar"
-  return ChooseAINameAndGenderView()
+  return ChooseAINameAndGenderView(path: .constant(NavigationPath()))
     .environmentObject(vm)
 }
 
@@ -103,26 +110,25 @@ extension ChooseAINameAndGenderView {
     }
   }
   private var continueButton: some View {
-    NavigationLink {
-      AIAgeView()
-        .environmentObject(vm)
-    } label: {
-      ZStack {
-        RoundedRectangle(cornerRadius: 10)
-          .fill(Color.white)
-          .frame(width: 30, height: 30)
-        Image(systemName: "chevron.right")
-          .foregroundStyle(.darkBlue)
-          .font(.system(size: 15))
-          .bold()
-      }.opacity(isContinueButtonDisabled ? 0.4 : 1)
-        .animation(.easeInOut, value: isContinueButtonDisabled)
-    }.onAppear {
-      if !vm.userAnswers.aiName.isEmpty {
-        isContinueButtonDisabled = false
+    ZStack {
+      RoundedRectangle(cornerRadius: 10)
+        .fill(Color.white)
+        .frame(width: 30, height: 30)
+      Image(systemName: "chevron.right")
+        .foregroundStyle(.darkBlue)
+        .font(.system(size: 15))
+        .bold()
+    }.opacity(isContinueButtonDisabled ? 0.4 : 1)
+      .animation(.easeInOut, value: isContinueButtonDisabled)
+      .onAppear {
+        if !vm.userAnswers.aiName.isEmpty {
+          isContinueButtonDisabled = false
+        }
       }
-    }
-    .allowsHitTesting(!isContinueButtonDisabled)
+      .allowsHitTesting(!isContinueButtonDisabled)
+      .onTapGesture {
+        path.append("AIAge")
+      }
   }
 }
 
